@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="stlukes">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-badge" id="brand-badge">🩺</span>
+      <div class="brand-text">
+        <span class="brand-title" id="app-title">Analytics Hub</span>
+        <span class="brand-tagline" id="brand-tagline">St. Luke's Health System</span>
+      </div>
+    </div>
+
+    <div class="theme-picker">
+      <label for="theme-select" class="theme-label">Theme</label>
+      <div class="select-wrap">
+        <select id="theme-select" aria-label="Choose a theme">
+          <option value="stlukes">🩺 St. Luke's</option>
+          <option value="boisestate">🐴 Boise State</option>
+          <option value="motorcycle">🏍️ Motorcycle</option>
+          <option value="uidaho">🌲 University of Idaho</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Dashboard ===== -->
+  <main class="dashboard-stage">
+    <div id="dashboard-placeholder" class="placeholder hidden">
+      <div class="placeholder-card">
+        <h2>Dashboard not loading?</h2>
+        <p id="placeholder-msg">
+          The embedded AI/BI dashboard requires the app's domain to be added to
+          your workspace's approved embedding domains, and the dashboard must be
+          published. See the README "Permissions" section.
+        </p>
+        <a id="dashboard-open-link" class="btn-ghost" target="_blank" rel="noopener">
+          Open dashboard in a new tab ↗
+        </a>
+      </div>
+    </div>
+    <iframe
+      id="dashboard-frame"
+      title="AI/BI Dashboard"
+      allow="fullscreen"
+      referrerpolicy="origin"
+    ></iframe>
+  </main>
+
+  <!-- ===== Genie floating button ===== -->
+  <button id="genie-fab" class="genie-fab" aria-label="Open Genie assistant">
+    <span class="genie-fab-icon">✨</span>
+    <span class="genie-fab-text">Ask Genie</span>
+  </button>
+
+  <!-- ===== Genie panel ===== -->
+  <aside id="genie-panel" class="genie-panel" aria-hidden="true">
+    <div class="genie-header">
+      <div class="genie-header-title">
+        <span class="genie-spark">✨</span>
+        <span>Genie</span>
+      </div>
+      <div class="genie-header-actions">
+        <button id="genie-new" class="icon-btn" title="New conversation">＋</button>
+        <button id="genie-close" class="icon-btn" title="Close">✕</button>
+      </div>
+    </div>
+
+    <div id="genie-messages" class="genie-messages">
+      <div class="genie-welcome">
+        <p class="genie-welcome-title">Ask a question about your data.</p>
+        <div id="genie-suggestions" class="genie-suggestions"></div>
+      </div>
+    </div>
+
+    <form id="genie-form" class="genie-input-row">
+      <textarea
+        id="genie-input"
+        class="genie-input"
+        rows="1"
+        placeholder="Ask Genie…"
+        autocomplete="off"
+      ></textarea>
+      <button type="submit" id="genie-send" class="genie-send" aria-label="Send">➤</button>
+    </form>
+  </aside>
+
+  <div id="genie-scrim" class="genie-scrim" hidden></div>
+
+  <script src="/themes.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

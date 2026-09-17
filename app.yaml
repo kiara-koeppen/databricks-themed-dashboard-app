@@ -1,0 +1,27 @@
+# Databricks Apps runtime configuration.
+#
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │  CUSTOMER: change the two IDs below to point at YOUR dashboard + Genie.   │
+# └─────────────────────────────────────────────────────────────────────────┘
+
+command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+env:
+  # ---- The two values you swap -------------------------------------------
+  - name: DASHBOARD_ID
+    value: "01f1a88db2fc1a5f843fe617311b5cc2"   # <-- your published AI/BI dashboard ID
+  - name: GENIE_SPACE_ID
+    value: "01f1a88b5c6613f9ad5a4383a3b81a6b"   # <-- your Genie space ID
+
+  # ---- Optional branding --------------------------------------------------
+  - name: APP_TITLE
+    value: "Analytics Hub"
+  - name: DEFAULT_THEME
+    value: "stlukes"                              # stlukes | boisestate | motorcycle | uidaho
+
+  # DATABRICKS_HOST is injected automatically by Databricks Apps.
+  #
+  # Alternative to hardcoding GENIE_SPACE_ID above: add a Genie space resource
+  # to the app in the UI and reference it here instead, e.g.:
+  #   - name: GENIE_SPACE_ID
+  #     valueFrom: genie-space

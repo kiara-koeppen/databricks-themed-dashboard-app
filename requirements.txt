@@ -1,0 +1,8 @@
+# FastAPI + uvicorn are pre-installed on the Databricks Apps runtime, but we
+# pin them so local dev matches. requests + databricks-sdk are the only real
+# additions.
+fastapi
+uvicorn[standard]
+requests
+databricks-sdk
+pydantic

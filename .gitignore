@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Databricks
+.databricks/
+databricks.yml.bak
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
