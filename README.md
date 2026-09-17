@@ -149,16 +149,23 @@ The simplest way: in the app's **Configure → Resources** tab, add a **Genie sp
 resource and a **SQL warehouse** resource. This wires the grants and lets you use
 `valueFrom: genie-space` in `app.yaml` if you prefer that to hardcoding the ID.
 
-### 2. User authorization (on-behalf-of) — recommended
+### 2. User authorization (on-behalf-of) — required for Genie
 So Genie answers respect each viewer's own permissions:
 
-1. A **workspace admin** enables **user authorization** for Databricks Apps
-   (Public Preview) in workspace settings.
-2. On the app's **Configure** step, add the OAuth scope **`dashboards.genie`**
-   (and `sql` if you later add direct SQL features).
-3. Databricks then injects the user's token as `x-forwarded-access-token`, which the
+1. Open the app → **Edit** → **User authorization** → **+ Add scope** and add the
+   **`genie`** scope (add `sql` too only if you later add direct SQL warehouse
+   features). Save and redeploy.
+   - The scope name is **`genie`**. The older `dashboards.genie` is **deprecated** —
+     use `genie`. CLI equivalent: `databricks apps update <app> --json '{"user_api_scopes":["genie"]}'`.
+   - Without this scope you get **`403 ... OAuth token does not have required scopes: genie`**.
+2. On first open, the user (or an admin) consents to the scope.
+3. If adding the scope is blocked, a workspace admin must allow it under
+   **Settings → Development → Apps → "Restrict OAuth scopes for apps to selected
+   values"** (set to **All APIs** or include `genie`).
+4. Databricks injects the user's token as `x-forwarded-access-token`, which the
    backend uses automatically. If user auth is **not** enabled, the app falls back to
-   the service principal — everyone sees the same permission scope.
+   the service principal — everyone shares its permission scope (and the SP then needs
+   the grants in #1).
 
 ### 3. Dashboard embedding — required for the iframe to render
 Embedding an AI/BI dashboard in an iframe has three requirements:
@@ -205,6 +212,7 @@ switcher and the Genie popup work against your real workspace.
 |---------|-----|
 | Dashboard area blank | Dashboard not published, or app domain not in approved embedding domains (see Permissions #3). |
 | Genie: `502` / "request failed" | App SP lacks `CAN RUN` on the space or `CAN USE` on the warehouse (Permissions #1). |
-| Genie answers ignore user permissions | User authorization not enabled / `dashboards.genie` scope not added (Permissions #2). |
+| Genie: `403 ... does not have required scopes: genie` | Add the **`genie`** user-authorization scope to the app (Permissions #2). |
+| Genie answers ignore user permissions | User authorization not enabled / `genie` scope not added (Permissions #2). |
 | App won't start | Check `databricks apps logs themed-dashboard`; confirm `app.yaml` command is unchanged. |
 | Wrong workspace | `echo $DATABRICKS_CONFIG_PROFILE`; re-run `databricks auth login`. |
